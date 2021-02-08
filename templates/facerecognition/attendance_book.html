@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>签到统计</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+
+<body>
+<main>
+    <h2 style="text-align: center">签到统计</h2>
+    <div class="confirm">
+        <h3 class="title_text">已签到</h3>
+        <ul>
+            {% for user_ in att_user %}
+                <li class="mis-slide">
+                    <div class="mis-container">
+                        <img src="{{ user_.user.photo.url }}" class="photo" alt="photo">
+                        <figure>
+                            <span class="att_text">{{ user_.user.user_name }}</span><br>
+                            <span class="att_text">已签到</span><br>
+                            <span class="att_text">{{ user_.attendance_time }}</span>
+                        </figure>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="clear"></div>
+    <div class="no_confirm">
+        <h3 class="title_text">未签到</h3>
+        <ul>
+            {% for user_n in no_att_user %}
+                <li class="mis-slide">
+                    <div class="mis-container">
+                        <img src="{{ user_n.photo.url }}" class="photo" alt="photo">
+                        <figure>
+                            <span class="att_text">{{ user_n.user_name }}</span><br>
+                            <span class="att_text">未签到 </span>
+                            <a href="/"><span class="att_text">去签到</span></a>
+                        </figure>
+                    </div>
+
+                </li>
+            {% endfor %}
+        </ul>
+
+    </div>
+</main>
+</body>
+</html>

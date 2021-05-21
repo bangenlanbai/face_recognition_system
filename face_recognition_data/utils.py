@@ -25,14 +25,15 @@ def face_compare(upload_path, photo_file_dict):
         testimage_faces.append(item["face_data"])
         user_id_list.append(item["user_id"])
     unknow_image = face_recognition.load_image_file(upload_path)
-    unknow_encoding = face_recognition.face_encodings(unknow_image)[0]
-    # print(unknow_image, unknow_encoding)
-    results = face_recognition.compare_faces(testimage_faces, unknow_encoding, tolerance=0.5)
-
-    for i in range(len(user_id_list)):
-        if results[i]:
-            return user_id_list[i]
-    return 0
+    unknow_encoding_list = face_recognition.face_encodings(unknow_image)
+    result_user_id_list = []
+    for item in unknow_encoding_list:
+        results = face_recognition.compare_faces(testimage_faces, item, tolerance=0.5)
+        for i in range(len(user_id_list)):
+            if results[i]:
+                result_user_id_list.append(user_id_list[i])
+                user_id_list.remove(user_id_list[i])
+    return result_user_id_list
 
 
 def create_face_data(face_img_path):
@@ -46,6 +47,3 @@ def base64_convert_png(base64_str, save_path):
     imgdata = base64.b64decode(base64_str)
     with open(save_path, 'wb') as f:
         f.write(imgdata)
-
-
-
